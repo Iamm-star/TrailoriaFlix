@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil Pencarian Film</title>
+    <link rel="stylesheet" href="css/search.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Hasil Pencarian Film</h1>
+        <!-- Tombol untuk kembali ke index.html, diletakkan di kanan atas -->
+        <button id="back-btn" class="btn-back">Back to List</button>
+    </header>
+
+    <!-- Section untuk hasil pencarian -->
+    <section id="result">
+        <div id="film-list" class="film-container"></div> <!-- Tempat untuk menampilkan hasil film -->
+    </section>
+
+    <script>
+        // Ambil parameter pencarian dari URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const movieName = urlParams.get('movie');
+
+        const apiKey = 'd64202a4'; // API Key OMDB
+
+        const filmList = document.getElementById('film-list');
+
+        // Fetch film berdasarkan parameter pencarian
+        const searchUrl = `https://www.omdbapi.com/?apikey=${apiKey}&s=${encodeURIComponent(movieName)}&type=movie`;
+
+        fetch(searchUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.Response === 'True') {
+                    // Render film hasil pencarian tanpa filter genre
+                    filmList.innerHTML = data.Search.map(film => `    
+                        <div class="film-item">
+                            <img src="${film.Poster}" alt="${film.Title}" class="poster">
+                            <h3>${film.Title} (${film.Year})</h3>
+                            <p>Type: ${film.Type}</p>
+                        </div>
+                    `).join('');
+                } else {
+                    filmList.innerHTML = `<p>Film tidak ditemukan</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching search results:', error);
+                filmList.innerHTML = `<p>Something went wrong. Please try again.</p>`;
+            });
+
+        // Aksi untuk tombol kembali
+        document.getElementById('back-btn').addEventListener('click', () => {
+            window.location.href = 'index.html'; // Kembali ke halaman index.html
+        });
+    </script>
+</body>
+</html>

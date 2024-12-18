@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Anime</title>
+    <link rel="stylesheet" href="css/detail.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Detail Anime</h1>
+    </header>
+
+    <div id="anime-detail" class="anime-detail"></div> <!-- Tempat untuk menampilkan detail anime -->
+
+    <script>
+        const animeDetail = document.getElementById("anime-detail");
+        const youtubeApiKey = 'AIzaSyB_3Ta4cdL3l7yW8GgjosPUSxAEvIqaeZA'; // Ganti dengan API key YouTube Anda
+
+        const getAnimeDetail = () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const animeId = urlParams.get('id'); // Ambil id anime dari URL
+            const apiUrl = `https://api.jikan.moe/v4/anime/${animeId}`; // URL untuk fetch detail anime
+
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const anime = data.data;
+                    animeDetail.innerHTML = `
+                        <div class="anime-detail-container">
+                            <img src="${anime.images.jpg.image_url}" alt="${anime.title}" class="anime-poster">
+                            <div class="anime-info">
+                                <h2>${anime.title}</h2>
+                                <div class="rating">
+                                    <img src="star-icon.svg" alt="Rating Star">
+                                    <h4>${anime.score}</h4>
+                                </div>
+                                <div class="details">
+                                    <span>${anime.rating || 'N/A'}</span>
+                                    <span>${anime.year || 'N/A'}</span>
+                                    <span>${anime.duration || 'N/A'}</span>
+                                </div>
+                                <div class="genre">
+                                    <div>${anime.genres.map(genre => genre.name).join("</div><div>")}</div>
+                                </div>
+                                <div class="synopsis">
+                                    <p><strong>Synopsis:</strong> ${anime.synopsis}</p>
+                                </div>
+                                <h3>Trailer:</h3>
+                                <div id="trailer-container">Loading trailer...</div>
+                            </div>
+                            <a href="index.html" class="btn-back">Back to List</a>
+                        </div>
+                    `;
+
+                    // Memanggil fungsi untuk mendapatkan trailer
+                    getTrailer(anime.title);
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    animeDetail.innerHTML = `<p>Error occurred while fetching anime details: ${error.message}</p>`;
+                });
+        };
+
+        const getTrailer = (animeTitle) => {
+    let youtubeSearchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(animeTitle)}+trailer&type=video&key=${youtubeApiKey}`;
+
+    fetch(youtubeSearchUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data); // Log the response to inspect the data
+            let trailerContainer = document.getElementById("trailer-container");
+            if (data.items.length > 0) {
+                let videoId = data.items[0].id.videoId;
+                trailerContainer.innerHTML = `
+                    <div class="trailer-box">
+                        <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" class="trailer-btn">Watch Trailer</a>
+                `;
+            } else {
+                trailerContainer.innerHTML = `<p>Trailer not found.</p>`;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching YouTube data: ', error);
+            document.getElementById("trailer-container").innerHTML = `<p>Trailer not found.</p>`;
+        });
+};
+
+
+        document.addEventListener("DOMContentLoaded", getAnimeDetail);
+    </script>
+</body>
+</html>

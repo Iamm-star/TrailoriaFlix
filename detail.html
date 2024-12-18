@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Film</title>
+    <link rel="stylesheet" href="css/detail.css"> <!-- Mengacu pada file CSS terpisah -->
+</head>
+<body>
+    <header class="header">
+        <h1>Detail Film</h1>
+    </header>
+
+    <div id="film-detail" class="film-detail"></div> <!-- Tempat untuk menampilkan detail film -->
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const imdbID = urlParams.get('imdbID');
+        const omdbApiKey = 'd64202a4'; // Ganti dengan API key Anda
+        const youtubeApiKey = 'AIzaSyB_3Ta4cdL3l7yW8GgjosPUSxAEvIqaeZA'; // Ganti dengan API key YouTube Anda
+
+        if (imdbID) {
+            fetch(`https://www.omdbapi.com/?i=${imdbID}&apikey=${omdbApiKey}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.Response == "True") {
+                        document.getElementById("film-detail").innerHTML = `
+                            <div class="film-detail-container">
+                                <img src="${data.Poster}" class="poster" alt="${data.Title}">
+                                <div class="film-info">
+                                    <h2>${data.Title}</h2>
+                                    <div class="rating">
+                                        <img src="star-icon.svg" alt="Rating Star">
+                                        <h4>${data.imdbRating}</h4>
+                                    </div>
+                                    <div class="details">
+                                        <span>${data.Rated}</span>
+                                        <span>${data.Year}</span>
+                                        <span>${data.Runtime}</span>
+                                    </div>
+                                    <div class="genre">
+                                        <div>${data.Genre.split(",").join("</div><div>")}</div>
+                                    </div>
+                                    <div class="cast">
+                                        <h3>Actors:</h3>
+                                        <p>${data.Actors}</p>
+                                    </div>
+                                    <div class="info-details">
+                                        <div class="plot">
+                                            <h3>Plot :</h3>
+                                            <p>${data.Plot}</p>
+                                        </div>
+                                        <div class="director">
+                                            <h3><strong>Director :</strong> ${data.Director}</h3>
+                                        </div>
+                                        <h3>Trailer :</h3>
+                                        <div id="trailer-container">Loading trailer...</div>
+                                    </div>
+                                    <a href="index.html" class="btn-back">Back to List</a>
+                                </div>
+                            </div>
+                        `;
+
+                        // Memanggil fungsi untuk mendapatkan trailer
+                        getTrailer(data.Title);
+                    } else {
+                        document.getElementById("film-detail").innerHTML = `<p>${data.Error}</p>`;
+                    }
+                })
+                .catch(() => {
+                    document.getElementById("film-detail").innerHTML = `<p>Error occurred while fetching film details.</p>`;
+                });
+        } else {
+            document.getElementById("film-detail").innerHTML = `<p>Film ID not found.</p>`;
+        }
+
+        const getTrailer = (animeTitle) => {
+    let youtubeSearchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(animeTitle)}+trailer&type=video&key=${youtubeApiKey}`;
+
+    fetch(youtubeSearchUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data); // Log the response to inspect the data
+            let trailerContainer = document.getElementById("trailer-container");
+            if (data.items.length > 0) {
+                let videoId = data.items[0].id.videoId;
+                trailerContainer.innerHTML = `
+                    <div class="trailer-box">
+                        <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank" class="trailer-btn">Watch Trailer</a>
+                `;
+            } else {
+                trailerContainer.innerHTML = `<p>Trailer not found.</p>`;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching YouTube data: ', error);
+            document.getElementById("trailer-container").innerHTML = `<p>Trailer not found.</p>`;
+        });
+};
+
+    </script>
+</body>
+</html>

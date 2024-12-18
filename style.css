@@ -1,0 +1,444 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&family=Ubuntu:ital,wght@1,300&display=swap');
+
+:root{
+    --main-color: #ddb216;
+    --black:#13131a;
+    --bg:#fff;
+    --border:.1rem solid rgba(255,255,255,.3);
+    --shadow:0 2px 2px rgba(0 0 0 /0.5);
+}
+
+
+*{
+    font-family: 'Roboto', sans-serif;
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+    outline: none; border: none;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: .2s linear;
+}
+
+html{
+    font-size: 62.5%;
+    overflow-x: hidden;
+    scroll-padding-top: 9rem;
+    scroll-behavior: smooth;
+}
+
+html::-webkit-scrollbar{
+    width: .8rem;
+}
+
+html::-webkit-scrollbar-track{
+    background: transparent;
+}
+
+html::-webkit-scrollbar-thumb{
+    background: #fff;
+    border-radius: 5rem;
+}
+
+body{
+    background: #161a1d;
+}
+
+section{
+    padding: 2rem 7%;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 7%;
+    background:  rgba(42, 79, 63, 0.8);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+
+.header .judul h1{
+    height: 2rem;
+    text-transform: uppercase;
+    font-size: 3em;
+    color: #f9f7e4;
+    text-align: left;
+    margin-bottom: 1em;
+    margin-top: 1rem;
+    animation: moveHorizontally 3s ease-in-out infinite;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 10px rgba(255, 185, 42, 0.6); /* Efek glow pada teks */
+
+}
+
+.navbar {
+    position: relative;
+}
+
+.nav-list {
+    list-style: none;
+    display: flex;
+    gap: 2rem; /* Jarak antar item menu */
+}
+
+
+.nav-list li {
+    display: inline;
+}
+
+.nav-list a {
+    color: #f9f7e4;
+    font-size: 1.5rem;
+    transition: color 0.3s;
+}
+
+
+.nav-list a:hover {
+    color: #ddb216;
+}
+
+/* Style untuk toggle menu (hamburger) */
+.toggle-menu {
+    display: none;
+    font-size: 3rem;
+    color: white;
+    cursor: pointer;
+    margin-left: -50rem;
+    margin-top: -5rem;
+}
+
+.home{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background-image: url(../cover.jpeg);
+    background-size: cover;
+    background-position: center;
+}
+
+.home .content{
+    max-width: 60rem;
+}
+
+.home .content h3{
+   
+    text-transform: uppercase;
+    color: white;
+    text-shadow: 0 2px 10px rgba(12, 12, 10, 3);
+}
+
+.home .content p{
+    font-size: 2rem;
+    font-weight: lighter;
+    line-height: 1.8;
+    padding: 1rem 0;
+    color: #eee ;
+    font-weight:400 ;
+}
+
+.home .content .btn-content{
+    font-size: 1.5em;
+    display: inline-block;
+    margin-top: 1em;
+    padding: 1em 1em;
+    background-color: #f9f7e4; /* Warna tombol */
+    color: #122d4f; /* Warna teks */
+    border: none;
+    border-radius: 0.3em;
+    font-weight: bold;
+    text-decoration: none; /* Menghilangkan garis bawah */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transisi */
+}
+
+.home .content a:hover{
+    background-color: #fff; /* Warna saat hover */
+    transform: translateY(-2px); /* Efek mengangkat */
+}
+
+.header-search{
+    text-align: right;
+}
+
+.header-search input,
+.header-search button {
+    font-size: 1.4em;
+    outline: none;
+    border-radius: 0.3em;
+}
+
+.header-search input{
+background-color: transparent;
+border: 2px solid #a0a0a0;
+color: #f9f7e4;
+padding: 0.7em;
+margin-right: 1em;
+}
+
+.header-search input:focus {
+    border-color: #fff;
+    box-shadow: 0 0 10px 2px rgba(255, 185, 42, 0.8);
+}
+
+.header-search button {
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0.7em;
+    transition: background-color 0.1 ease, transform 0.1s ease;
+    color: #1e293b;
+}
+
+.header-search button:hover {
+    background-color: #f9f7e4;
+    transform: translateY(-2px);
+    color: #122d4f;
+}
+
+/*.btn-detail {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: #122d4f; 
+    color: #1e293b; 
+    border-radius: 0.3em;
+    text-decoration: none;
+}*/
+
+.film h2, 
+.anime h2{
+    text-align: center;
+    color: #f9f7e4;
+    font-size: 3em;
+    font-family: serif;
+    margin-top: 1.5em;
+}
+
+.film-container,
+.anime-container {
+    display: flex;
+    flex-wrap: wrap; /* Agar item film bisa berbaris */
+    justify-content: space-around; /* Rata tengah */
+    padding: 2rem 0; /* Jarak atas dan bawah */
+}
+
+.film-item,
+.anime-item {
+    background-color: rgba(249, 247, 228); /* Warna latar belakang item film */
+    border-radius: 0.5rem; /* Sudut membulat */
+    box-shadow: var(--shadow); /* Bayangan */
+    margin: 0.5rem; /* Mengurangi jarak antara item film */
+    padding: 0.5rem; /* Mengurangi padding */
+    width: 20%; /* Lebar item film */
+    text-align: center;
+    transition: transform 0.2s; /* Efek saat hover */
+}
+
+.film-item .poster,
+.anime-item .poster {
+    width: 100%;
+    height: auto;
+    box-shadow: 0 2px 10px rgba(12, 12, 10, 3);
+    border-radius: 0.5rem; /* Sudut membulat pada gambar */
+}
+
+.btn-detail {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #122d4f;
+    color: #f9f7e4;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-detail:hover{
+    background-color: #1c4b86; /* Warna saat hover */
+    color: #fff;
+}
+
+.movie-details {
+    padding: 20px;
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+
+
+
+
+
+
+
+
+footer{
+    text-align: center;
+}
+
+.sosial-media{
+    font-size: 1.5rem;
+    font-weight:400;
+    background-color: #f9f7e4;
+    padding: 1rem 0;
+}
+
+.sosial-media a{
+    color: #122d4f;
+    height: 5rem;
+    width: 5rem;
+    line-height: 5rem;
+    font-size: 1.6rem;
+    margin: 2rem;
+}
+
+.sosial-media .credit{
+    font-size: 1.6rem;
+}
+
+.sosial-media .credit a{
+    font-size: 1.6rem;
+    color: rgb(0, 0, 0);
+}
+
+.sosial-media .credit a:hover{
+    color: #122d4f;
+}
+
+
+
+.anime-item {
+    width: 200px;
+    text-align: center;
+}
+
+.anime-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.anime-item h3 {
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+.anime-item p {
+    font-size: 1rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+    .home .content h3 {
+        font-size: 4rem;
+    }
+
+    .anime-item h3{
+        font-size: 1.3rem;
+    }
+
+    .nav-list {
+        display: none; /* Sembunyikan daftar menu di layar kecil */
+        flex-direction: column; /* Tampilkan menu dalam kolom */
+        position: absolute;
+        top: 60px; /* Sesuaikan posisi dropdown */
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.8); /* Latar belakang semi transparan */
+        padding: 1rem;
+        z-index: 999;
+    }
+
+    .nav-list.active {
+        display: flex; /* Tampilkan daftar menu saat toggle aktif */
+    }
+
+    .toggle-menu {
+        display: flex; /* Tampilkan toggle menu di layar kecil */
+        margin-right: -15rem;
+        
+    }
+    .header-search{
+        margin-left: -8rem;
+    }
+    .nav-list li {
+        text-align: center; /* Rata tengah item menu */
+        margin: 1rem 0; /* Jarak antar item menu */
+    }
+
+    .film-item {
+        width: 20%; /* tiga film dalam satu baris pada layar kecil */
+    }
+
+    .anime-item { 
+        width: 20%;
+    }
+
+    .header .navbar a {
+        font-size: 1.5rem;
+    }
+
+        .header {
+            flex-direction: column; /* Stack header elements vertically */
+        }
+    
+        .navbar {
+            display: flex;
+            flex-direction: column; /* Stack navbar links vertically */
+        }
+    
+        .header-search {
+            width: 100%; /* Make search bar full width */
+        }
+    }
+
+
+@media (min-width: 1200px) {
+    .home .content h3 {
+        font-size: 4.7rem;
+    }
+
+    .home .content p{
+        font-size: 2rem;
+    }
+
+    .film-item {
+        width: 18%; /* tiga film dalam satu baris pada layar kecil */
+    }
+}
+
+
+
+
+.sosial-media a {
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+
+
+
+@keyframes moveHorizontally {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(10px);
+    }
+}
